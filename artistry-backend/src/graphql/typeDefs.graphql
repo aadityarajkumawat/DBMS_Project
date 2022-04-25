@@ -1,0 +1,69 @@
+type Consumer {
+    f_name: String
+    m_name: String
+    l_name: String
+    mail_id: String
+    password: String
+    c_type: String
+}
+
+type ConsumerResponse {
+    user: Consumer
+    error: String
+}
+
+type MealsSkipped {
+    meal_skipped_id: String
+    c_id: String
+    meal_type: String
+    skip_date: String
+}
+
+type GetSkippedMealsResponse {
+    mealsSkipped: [MealsSkipped]!
+    error: String
+}
+
+type Menu {
+    menu_id: String
+    breakfast: String
+    lunch: String
+    snacks: String
+    dinner: String
+    date: String
+}
+
+type GetMenuResponse {
+    menu: [Menu]!
+    error: String
+}
+
+type Query {
+    me: ConsumerResponse
+    getSkippedMeals: GetSkippedMealsResponse!
+    getMenu: GetMenuResponse!
+}
+
+type ConsumerLoginResponse {
+    user: Boolean!
+    error: String
+}
+
+type MutationResponse {
+    status: Boolean
+    error: String
+}
+
+type Mutation {
+    consumerLogin(mail_id: String, password: String): ConsumerLoginResponse
+    consumerRegister(
+        f_name: String
+        m_name: String
+        l_name: String
+        mail_id: String
+        password: String
+        c_type: String
+    ): ConsumerLoginResponse
+    markSkippedMeal(meal_type: String, skip_date: String): MutationResponse
+    createMeal: MutationResponse!
+}

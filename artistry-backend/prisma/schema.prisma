@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Consumer {
+  c_id          String         @id @default(uuid())
+  mail_id       String         @db.VarChar(100)
+  password      String
+  f_name        String         @db.VarChar(70)
+  m_name        String?        @db.VarChar(70)
+  l_name        String?        @db.VarChar(70)
+  c_type        String         @db.VarChar(70)
+  meals_skipped MealsSkipped[]
+}
+
+model DailyMeals {
+  menu_id String @id @default(uuid())
+  date    String
+  day     String @db.VarChar(15)
+  // link
+  menu    Menu[]
+}
+
+model Wastage {
+  meal_type     String   @db.VarChar(3)
+  date          DateTime
+  total_wastage Float
+
+  @@unique([meal_type, date])
+}
+
+model Menu {
+  menu_id    String
+  breakfast  String     @db.VarChar(200)
+  lunch      String     @db.VarChar(200)
+  snacks     String     @db.VarChar(200)
+  dinner     String     @db.VarChar(200)
+  date       String
+  DailyMeals DailyMeals @relation(fields: [menu_id], references: [menu_id])
+
+  @@unique([menu_id, breakfast, lunch])
+}
+
+model MessStaff {
+  staff_id String @id @default(uuid())
+  role     String
+
+}
+
+model MealsSkipped {
+  meal_skipped_id String    @id @default(uuid())
+  c_id            String
+  meal_type       String    @db.VarChar(3)
+  skip_date       String
+  Consumer        Consumer? @relation(fields: [c_id], references: [c_id])
+}
