@@ -26,8 +26,17 @@ Development Status: Under development
 
 ### Frontend Setup
 
-Some description about frontend
+Run
+
+```bash
+npm i # to install dependencies
+npm start # to run frontend server
+```
 
 ### Backend Setup
 
-Some description about backend
+Run
+```bash
+npm i
+npm run dev # to start development server
+```
